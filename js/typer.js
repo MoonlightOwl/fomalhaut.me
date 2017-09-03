@@ -38,6 +38,7 @@ function extensionToLanguage(extension) {
             case "kt": return "kotlin";
             case "rb": return "ruby";
             case "sbt": return "scala";
+            case "rs": return "rust";
             case "png": case "jpg": case "jpeg": case "bmp": case "ico":
             case "jar": return undefined;
             default: return "ini";
