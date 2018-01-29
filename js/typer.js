@@ -1,17 +1,25 @@
-var listing = ". . . . . .";
-var printed = "";
-var position = 0;
-var lines = 0;
-var MAX_LINES = 5;
+/**
+ * An ever programming version of myself :3
+ */
 
+var MAX_LINES = 5;               // how long will be the visible part of a listing
+var lines = 0;                   // how long it is right now
+var listing = ". . . . . .";     // the full listing itself
+var printed = "";                // the visible part of it
+var position = 0;                // cursor position
+var language = "lua";            // current language (for syntax highlighting)
+
+// emulation container
 var scroller = document.getElementById("scroller");
-var language = "lua";
 
+
+// hacked up way to emulate `Enter`
 function rewind() {
     if (lines < MAX_LINES) lines++;
     else printed = printed.substring(printed.indexOf("\n") + 1);
 }
 
+// do yet another letter
 function type() {
     printed += listing[position];
     if (listing[position] === '\n') rewind();
@@ -19,7 +27,7 @@ function type() {
 
     if (position < listing.length - 1) {
         position ++;
-        var timeout = Math.random() * ((position < listing.length && listing[position] !== ' ' && listing[position + 1] === ' ') ? 500 : 60);
+        var timeout = Math.random() * ((position < listing.length && listing[position] !== ' ' && listing[position + 1] === ' ') ? 450 : 60);
         setTimeout(type, timeout);
     }
     else {
@@ -31,6 +39,7 @@ function type() {
 }
 
 
+// try and guess the language of given source code file by the file extension
 function extensionToLanguage(extension) {
     if (hljs.getLanguage(extension) !== undefined) return extension;
     else
@@ -40,12 +49,13 @@ function extensionToLanguage(extension) {
             case "sbt": return "scala";
             case "rs": return "rust";
             case "png": case "jpg": case "jpeg": case "bmp": case "ico":
-            case "jar": return undefined;
+            case "jar": case "ttf": return undefined;
             default: return "ini";
         }
 }
 
 
+// list of my GitHub repositories
 var repos = [];
 
 function httpGetAsync(url, callback) {
@@ -85,3 +95,4 @@ httpGetAsync("https://api.github.com/users/MoonlightOwl/repos", function(data) {
     // get some code to type
     fetch();
 });
+
